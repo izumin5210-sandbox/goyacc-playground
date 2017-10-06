@@ -1,0 +1,106 @@
+
+state 0
+	$accept: .tags $end 
+
+	KEY  shift 3
+	.  error
+
+	tags  goto 1
+	tag  goto 2
+
+state 1
+	$accept:  tags.$end 
+	tags:  tags.COMMA tag 
+
+	$end  accept
+	COMMA  shift 4
+	.  error
+
+
+state 2
+	tags:  tag.    (1)
+
+	.  reduce 1 (src line 24)
+
+
+state 3
+	tag:  KEY.COLON literal 
+
+	COLON  shift 5
+	.  error
+
+
+state 4
+	tags:  tags COMMA.tag 
+
+	KEY  shift 3
+	.  error
+
+	tag  goto 6
+
+state 5
+	tag:  KEY COLON.literal 
+
+	INT  shift 8
+	FLOAT  shift 9
+	STRING  shift 10
+	TRUE  shift 11
+	FALSE  shift 12
+	.  error
+
+	literal  goto 7
+
+state 6
+	tags:  tags COMMA tag.    (2)
+
+	.  reduce 2 (src line 30)
+
+
+state 7
+	tag:  KEY COLON literal.    (3)
+
+	.  reduce 3 (src line 36)
+
+
+state 8
+	literal:  INT.    (4)
+
+	.  reduce 4 (src line 42)
+
+
+state 9
+	literal:  FLOAT.    (5)
+
+	.  reduce 5 (src line 44)
+
+
+state 10
+	literal:  STRING.    (6)
+
+	.  reduce 6 (src line 45)
+
+
+state 11
+	literal:  TRUE.    (7)
+
+	.  reduce 7 (src line 46)
+
+
+state 12
+	literal:  FALSE.    (8)
+
+	.  reduce 8 (src line 47)
+
+
+11 terminals, 4 nonterminals
+9 grammar rules, 13/8000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+53 working sets used
+memory: parser 3/120000
+0 extra closures
+9 shift entries, 1 exceptions
+4 goto entries
+0 entries saved by goto default
+Optimizer space used: output 13/120000
+13 table entries, 1 zero
+maximum spread: 11, maximum offset: 11
