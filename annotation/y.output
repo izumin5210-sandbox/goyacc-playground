@@ -1,0 +1,238 @@
+
+state 0
+	$accept: .annotations $end 
+
+	IDENT  shift 3
+	.  error
+
+	annotations  goto 1
+	annotation  goto 2
+
+state 1
+	$accept:  annotations.$end 
+	annotations:  annotations.CR annotation 
+
+	$end  accept
+	CR  shift 4
+	.  error
+
+
+state 2
+	annotations:  annotation.    (1)
+
+	.  reduce 1 (src line 29)
+
+
+state 3
+	annotation:  IDENT.COLON IDENT 
+	annotation:  IDENT.COLON IDENT LPAREN fields RPAREN 
+
+	COLON  shift 5
+	.  error
+
+
+state 4
+	annotations:  annotations CR.annotation 
+
+	IDENT  shift 3
+	.  error
+
+	annotation  goto 6
+
+state 5
+	annotation:  IDENT COLON.IDENT 
+	annotation:  IDENT COLON.IDENT LPAREN fields RPAREN 
+
+	IDENT  shift 7
+	.  error
+
+
+state 6
+	annotations:  annotations CR annotation.    (2)
+
+	.  reduce 2 (src line 35)
+
+
+state 7
+	annotation:  IDENT COLON IDENT.    (3)
+	annotation:  IDENT COLON IDENT.LPAREN fields RPAREN 
+
+	LPAREN  shift 8
+	.  reduce 3 (src line 41)
+
+
+state 8
+	annotation:  IDENT COLON IDENT LPAREN.fields RPAREN 
+
+	IDENT  shift 11
+	.  error
+
+	fields  goto 9
+	field  goto 10
+
+state 9
+	annotation:  IDENT COLON IDENT LPAREN fields.RPAREN 
+	fields:  fields.COMMA field 
+
+	RPAREN  shift 12
+	COMMA  shift 13
+	.  error
+
+
+state 10
+	fields:  field.    (5)
+
+	.  reduce 5 (src line 51)
+
+
+state 11
+	field:  IDENT.EQUAL LBRACE exprs RBRACE 
+	field:  IDENT.EQUAL expr 
+
+	EQUAL  shift 14
+	.  error
+
+
+state 12
+	annotation:  IDENT COLON IDENT LPAREN fields RPAREN.    (4)
+
+	.  reduce 4 (src line 46)
+
+
+state 13
+	fields:  fields COMMA.field 
+
+	IDENT  shift 11
+	.  error
+
+	field  goto 15
+
+state 14
+	field:  IDENT EQUAL.LBRACE exprs RBRACE 
+	field:  IDENT EQUAL.expr 
+
+	IDENT  shift 23
+	INT  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	TRUE  shift 21
+	FALSE  shift 22
+	LBRACE  shift 16
+	.  error
+
+	expr  goto 17
+
+state 15
+	fields:  fields COMMA field.    (6)
+
+	.  reduce 6 (src line 56)
+
+
+state 16
+	field:  IDENT EQUAL LBRACE.exprs RBRACE 
+
+	IDENT  shift 23
+	INT  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	TRUE  shift 21
+	FALSE  shift 22
+	.  error
+
+	exprs  goto 24
+	expr  goto 25
+
+state 17
+	field:  IDENT EQUAL expr.    (8)
+
+	.  reduce 8 (src line 66)
+
+
+state 18
+	expr:  INT.    (9)
+
+	.  reduce 9 (src line 71)
+
+
+state 19
+	expr:  FLOAT.    (10)
+
+	.  reduce 10 (src line 73)
+
+
+state 20
+	expr:  STRING.    (11)
+
+	.  reduce 11 (src line 74)
+
+
+state 21
+	expr:  TRUE.    (12)
+
+	.  reduce 12 (src line 75)
+
+
+state 22
+	expr:  FALSE.    (13)
+
+	.  reduce 13 (src line 76)
+
+
+state 23
+	expr:  IDENT.    (14)
+
+	.  reduce 14 (src line 77)
+
+
+state 24
+	field:  IDENT EQUAL LBRACE exprs.RBRACE 
+	exprs:  exprs.COMMA expr 
+
+	RBRACE  shift 26
+	COMMA  shift 27
+	.  error
+
+
+state 25
+	exprs:  expr.    (15)
+
+	.  reduce 15 (src line 79)
+
+
+state 26
+	field:  IDENT EQUAL LBRACE exprs RBRACE.    (7)
+
+	.  reduce 7 (src line 61)
+
+
+state 27
+	exprs:  exprs COMMA.expr 
+
+	IDENT  shift 23
+	INT  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	TRUE  shift 21
+	FALSE  shift 22
+	.  error
+
+	expr  goto 28
+
+state 28
+	exprs:  exprs COMMA expr.    (16)
+
+	.  reduce 16 (src line 84)
+
+
+17 terminals, 7 nonterminals
+17 grammar rules, 29/8000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+56 working sets used
+memory: parser 9/120000
+0 extra closures
+32 shift entries, 1 exceptions
+10 goto entries
+0 entries saved by goto default
+Optimizer space used: output 34/120000
+34 table entries, 0 zero
+maximum spread: 17, maximum offset: 27
