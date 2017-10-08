@@ -20,7 +20,7 @@ state 1
 state 2
 	tags:  tag.    (1)
 
-	.  reduce 1 (src line 24)
+	.  reduce 1 (src line 23)
 
 
 state 3
@@ -53,43 +53,43 @@ state 5
 state 6
 	tags:  tags COMMA tag.    (2)
 
-	.  reduce 2 (src line 30)
+	.  reduce 2 (src line 29)
 
 
 state 7
 	tag:  KEY COLON literal.    (3)
 
-	.  reduce 3 (src line 36)
+	.  reduce 3 (src line 35)
 
 
 state 8
 	literal:  INT.    (4)
 
-	.  reduce 4 (src line 42)
+	.  reduce 4 (src line 41)
 
 
 state 9
 	literal:  FLOAT.    (5)
 
-	.  reduce 5 (src line 44)
+	.  reduce 5 (src line 43)
 
 
 state 10
 	literal:  STRING.    (6)
 
-	.  reduce 6 (src line 45)
+	.  reduce 6 (src line 44)
 
 
 state 11
 	literal:  TRUE.    (7)
 
-	.  reduce 7 (src line 46)
+	.  reduce 7 (src line 45)
 
 
 state 12
 	literal:  FALSE.    (8)
 
-	.  reduce 8 (src line 47)
+	.  reduce 8 (src line 46)
 
 
 11 terminals, 4 nonterminals

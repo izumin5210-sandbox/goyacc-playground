@@ -10,7 +10,6 @@ type yySymType struct {
 	token Token
 	tags  []Tag
 	tag   Tag
-	expr  Expr
 }
 
 const KEY = 57346
@@ -41,7 +40,7 @@ const yyEofCode = 1
 const yyErrCode = 2
 const yyInitialStackSize = 16
 
-//line parser.go.y:48
+//line parser.go.y:47
 
 //line yacctab:1
 var yyExca = [...]int{
@@ -437,53 +436,53 @@ yydefault:
 
 	case 1:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parser.go.y:26
+		//line parser.go.y:25
 		{
 			yyVAL.tags = []Tag{yyDollar[1].tag}
 			yylex.(*Lexer).result = yyVAL.tags
 		}
 	case 2:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parser.go.y:31
+		//line parser.go.y:30
 		{
 			yyVAL.tags = append(yyDollar[1].tags, yyDollar[3].tag)
 			yylex.(*Lexer).result = yyVAL.tags
 		}
 	case 3:
 		yyDollar = yyS[yypt-3 : yypt+1]
-		//line parser.go.y:38
+		//line parser.go.y:37
 		{
-			yyVAL.tag = Tag{key: yyDollar[1].token.literal, value: yyDollar[3].expr}
+			yyVAL.tag = Tag{key: yyDollar[1].token.literal, value: yyDollar[3].token}
 		}
 	case 4:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parser.go.y:43
+		//line parser.go.y:42
 		{
-			yyVAL.expr = yyDollar[1].token
+			yyVAL.token = yyDollar[1].token
 		}
 	case 5:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parser.go.y:44
+		//line parser.go.y:43
 		{
-			yyVAL.expr = yyDollar[1].token
+			yyVAL.token = yyDollar[1].token
 		}
 	case 6:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parser.go.y:45
+		//line parser.go.y:44
 		{
-			yyVAL.expr = yyDollar[1].token
+			yyVAL.token = yyDollar[1].token
 		}
 	case 7:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parser.go.y:46
+		//line parser.go.y:45
 		{
-			yyVAL.expr = yyDollar[1].token
+			yyVAL.token = yyDollar[1].token
 		}
 	case 8:
 		yyDollar = yyS[yypt-1 : yypt+1]
-		//line parser.go.y:47
+		//line parser.go.y:46
 		{
-			yyVAL.expr = yyDollar[1].token
+			yyVAL.token = yyDollar[1].token
 		}
 	}
 	goto yystack /* stack new state and value */

@@ -8,12 +8,11 @@ package main
     token Token
     tags  []Tag
     tag   Tag
-    expr  Expr
 }
 
 %type<tags> tags
 %type<tag> tag
-%type<expr> literal
+%type<token> literal
 %token<token> KEY
 %token<token> INT FLOAT STRING
 %token<token> TRUE FALSE

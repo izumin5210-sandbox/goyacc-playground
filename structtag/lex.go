@@ -11,10 +11,7 @@ type Token struct {
 
 type Tag struct {
 	key   string
-	value Expr
-}
-
-type Expr interface {
+	value Token
 }
 
 type Lexer struct {
