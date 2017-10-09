@@ -32,9 +32,9 @@ annotations
         $$ = []Annotation{$1}
         yylex.(*Lexer).result = $$
     }
-    | annotations CR annotation
+    | annotations annotation
     {
-        $$ = append($1, $3)
+        $$ = append($1, $2)
         yylex.(*Lexer).result = $$
     }
 

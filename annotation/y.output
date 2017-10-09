@@ -10,12 +10,13 @@ state 0
 
 state 1
 	$accept:  annotations.$end 
-	annotations:  annotations.CR annotation 
+	annotations:  annotations.annotation 
 
 	$end  accept
-	CR  shift 4
+	IDENT  shift 3
 	.  error
 
+	annotation  goto 4
 
 state 2
 	annotations:  annotation.    (1)
@@ -32,207 +33,199 @@ state 3
 
 
 state 4
-	annotations:  annotations CR.annotation 
+	annotations:  annotations annotation.    (2)
 
-	IDENT  shift 3
-	.  error
+	.  reduce 2 (src line 35)
 
-	annotation  goto 6
 
 state 5
 	annotation:  IDENT COLON.IDENT 
 	annotation:  IDENT COLON.IDENT LPAREN fields RPAREN 
 
-	IDENT  shift 7
+	IDENT  shift 6
 	.  error
 
 
 state 6
-	annotations:  annotations CR annotation.    (2)
-
-	.  reduce 2 (src line 35)
-
-
-state 7
 	annotation:  IDENT COLON IDENT.    (3)
 	annotation:  IDENT COLON IDENT.LPAREN fields RPAREN 
 
-	LPAREN  shift 8
+	LPAREN  shift 7
 	.  reduce 3 (src line 41)
 
 
-state 8
+state 7
 	annotation:  IDENT COLON IDENT LPAREN.fields RPAREN 
 
-	IDENT  shift 11
+	IDENT  shift 10
 	.  error
 
-	fields  goto 9
-	field  goto 10
+	fields  goto 8
+	field  goto 9
 
-state 9
+state 8
 	annotation:  IDENT COLON IDENT LPAREN fields.RPAREN 
 	fields:  fields.COMMA field 
 
-	RPAREN  shift 12
-	COMMA  shift 13
+	RPAREN  shift 11
+	COMMA  shift 12
 	.  error
 
 
-state 10
+state 9
 	fields:  field.    (5)
 
 	.  reduce 5 (src line 51)
 
 
-state 11
+state 10
 	field:  IDENT.EQUAL LBRACE exprs RBRACE 
 	field:  IDENT.EQUAL expr 
 
-	EQUAL  shift 14
+	EQUAL  shift 13
 	.  error
 
 
-state 12
+state 11
 	annotation:  IDENT COLON IDENT LPAREN fields RPAREN.    (4)
 
 	.  reduce 4 (src line 46)
 
 
-state 13
+state 12
 	fields:  fields COMMA.field 
 
-	IDENT  shift 11
+	IDENT  shift 10
 	.  error
 
-	field  goto 15
+	field  goto 14
 
-state 14
+state 13
 	field:  IDENT EQUAL.LBRACE exprs RBRACE 
 	field:  IDENT EQUAL.expr 
 
-	IDENT  shift 23
-	INT  shift 18
-	FLOAT  shift 19
-	STRING  shift 20
-	TRUE  shift 21
-	FALSE  shift 22
-	LBRACE  shift 16
+	IDENT  shift 22
+	INT  shift 17
+	FLOAT  shift 18
+	STRING  shift 19
+	TRUE  shift 20
+	FALSE  shift 21
+	LBRACE  shift 15
 	.  error
 
-	expr  goto 17
+	expr  goto 16
 
-state 15
+state 14
 	fields:  fields COMMA field.    (6)
 
 	.  reduce 6 (src line 56)
 
 
-state 16
+state 15
 	field:  IDENT EQUAL LBRACE.exprs RBRACE 
 
-	IDENT  shift 23
-	INT  shift 18
-	FLOAT  shift 19
-	STRING  shift 20
-	TRUE  shift 21
-	FALSE  shift 22
+	IDENT  shift 22
+	INT  shift 17
+	FLOAT  shift 18
+	STRING  shift 19
+	TRUE  shift 20
+	FALSE  shift 21
 	.  error
 
-	exprs  goto 24
-	expr  goto 25
+	exprs  goto 23
+	expr  goto 24
 
-state 17
+state 16
 	field:  IDENT EQUAL expr.    (8)
 
 	.  reduce 8 (src line 66)
 
 
-state 18
+state 17
 	expr:  INT.    (9)
 
 	.  reduce 9 (src line 71)
 
 
-state 19
+state 18
 	expr:  FLOAT.    (10)
 
 	.  reduce 10 (src line 73)
 
 
-state 20
+state 19
 	expr:  STRING.    (11)
 
 	.  reduce 11 (src line 74)
 
 
-state 21
+state 20
 	expr:  TRUE.    (12)
 
 	.  reduce 12 (src line 75)
 
 
-state 22
+state 21
 	expr:  FALSE.    (13)
 
 	.  reduce 13 (src line 76)
 
 
-state 23
+state 22
 	expr:  IDENT.    (14)
 
 	.  reduce 14 (src line 77)
 
 
-state 24
+state 23
 	field:  IDENT EQUAL LBRACE exprs.RBRACE 
 	exprs:  exprs.COMMA expr 
 
-	RBRACE  shift 26
-	COMMA  shift 27
+	RBRACE  shift 25
+	COMMA  shift 26
 	.  error
 
 
-state 25
+state 24
 	exprs:  expr.    (15)
 
 	.  reduce 15 (src line 79)
 
 
-state 26
+state 25
 	field:  IDENT EQUAL LBRACE exprs RBRACE.    (7)
 
 	.  reduce 7 (src line 61)
 
 
-state 27
+state 26
 	exprs:  exprs COMMA.expr 
 
-	IDENT  shift 23
-	INT  shift 18
-	FLOAT  shift 19
-	STRING  shift 20
-	TRUE  shift 21
-	FALSE  shift 22
+	IDENT  shift 22
+	INT  shift 17
+	FLOAT  shift 18
+	STRING  shift 19
+	TRUE  shift 20
+	FALSE  shift 21
 	.  error
 
-	expr  goto 28
+	expr  goto 27
 
-state 28
+state 27
 	exprs:  exprs COMMA expr.    (16)
 
 	.  reduce 16 (src line 84)
 
 
 17 terminals, 7 nonterminals
-17 grammar rules, 29/8000 states
+17 grammar rules, 28/8000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 56 working sets used
 memory: parser 9/120000
 0 extra closures
-32 shift entries, 1 exceptions
+31 shift entries, 1 exceptions
 10 goto entries
 0 entries saved by goto default
-Optimizer space used: output 34/120000
-34 table entries, 0 zero
-maximum spread: 17, maximum offset: 27
+Optimizer space used: output 33/120000
+33 table entries, 0 zero
+maximum spread: 16, maximum offset: 26
