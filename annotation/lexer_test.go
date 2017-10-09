@@ -10,6 +10,7 @@ func Test_yyParse(t *testing.T) {
 	cases := []struct {
 		input  string
 		output []Annotation
+		errCnt int
 	}{
 		{
 			input: "test:foo",
@@ -19,6 +20,7 @@ func Test_yyParse(t *testing.T) {
 					Name:      Token{Token: IDENT, Literal: "foo"},
 				},
 			},
+			errCnt: 0,
 		},
 		{
 			input: `test:foo(bar = "baz")`,
@@ -34,6 +36,7 @@ func Test_yyParse(t *testing.T) {
 					},
 				},
 			},
+			errCnt: 0,
 		},
 		{
 			input: `test:foo(bar = "baz", qux = true)`,
@@ -53,6 +56,7 @@ func Test_yyParse(t *testing.T) {
 					},
 				},
 			},
+			errCnt: 0,
 		},
 		{
 			input: `test:foo(bar = {"baz", "qux"})`,
@@ -71,6 +75,53 @@ func Test_yyParse(t *testing.T) {
 					},
 				},
 			},
+			errCnt: 0,
+		},
+		{
+			input: `test:foo(bar = 42)
+test:baz(qux = true)`,
+			output: []Annotation{
+				{
+					Namespace: Token{Token: IDENT, Literal: "test"},
+					Name:      Token{Token: IDENT, Literal: "foo"},
+					Fields: []Field{
+						{
+							Name: Token{Token: IDENT, Literal: "bar"},
+							Expr: Token{Token: INT, Literal: "42"},
+						},
+					},
+				},
+				{
+					Namespace: Token{Token: IDENT, Literal: "test"},
+					Name:      Token{Token: IDENT, Literal: "baz"},
+					Fields: []Field{
+						{
+							Name: Token{Token: IDENT, Literal: "qux"},
+							Expr: Token{Token: TRUE, Literal: "true"},
+						},
+					},
+				},
+			},
+			errCnt: 0,
+		},
+		{
+			input:  `test`,
+			output: []Annotation{},
+			errCnt: 1,
+		},
+		{
+			input:  `test: foo`,
+			output: []Annotation{},
+			errCnt: 2,
+		},
+		{
+			input:  `test :foo`,
+			output: []Annotation{},
+			errCnt: 2,
+		}, {
+			input:  `test : foo`,
+			output: []Annotation{},
+			errCnt: 2,
 		},
 	}
 
@@ -78,8 +129,11 @@ func Test_yyParse(t *testing.T) {
 		l := new(Lexer)
 		l.Init(strings.NewReader(c.input))
 		yyParse(l)
+		if got, want := l.ErrorCount, c.errCnt; got != want {
+			t.Errorf("yyParse(%q) occurred %d errors,  want %d errors", c.input, got, want)
+		}
 		if got, want := len(l.result), len(c.output); got != want {
-			t.Errorf("yyParse(%q).result includes %v, want %d tags", c.input, got, want)
+			t.Errorf("yyParse(%q).result is %v, want %d tags", c.input, l.result, want)
 		} else {
 			for i, wantAnn := range c.output {
 				gotAnn := l.result[i]
